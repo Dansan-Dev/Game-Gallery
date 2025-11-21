@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 interface DownloadButtonsProps {
   gameSlug: string
@@ -10,7 +10,33 @@ const DL_PATHS = {
   mac: '/assets/elderpath-crusade/ForestOfDreams-macX64.zip',
 }
 
-export function DownloadButtons({ gameSlug }: DownloadButtonsProps) {
+function detectOS(): 'win' | 'linux' | 'mac' | null {
+  if (typeof window === 'undefined') return null
+  
+  const platform = navigator.platform.toLowerCase()
+  const userAgent = navigator.userAgent.toLowerCase()
+  
+  // Check for Mac
+  if (platform.includes('mac') || userAgent.includes('mac')) {
+    return 'mac'
+  }
+  
+  // Check for Windows
+  if (platform.includes('win') || userAgent.includes('win')) {
+    return 'win'
+  }
+  
+  // Check for Linux
+  if (platform.includes('linux') || userAgent.includes('linux')) {
+    return 'linux'
+  }
+  
+  // Default to null if we can't detect
+  return null
+}
+
+export function DownloadButtons({ gameSlug: _gameSlug }: DownloadButtonsProps) {
+  const detectedOS = useMemo(() => detectOS(), [])
   const [status, setStatus] = useState<{ msg: string; isError: boolean }>({
     msg: 'Note: Downloads may be large. If clicking does not start a download, right-click and choose "Save link as…" once links are available.',
     isError: false,
@@ -62,12 +88,21 @@ export function DownloadButtons({ gameSlug }: DownloadButtonsProps) {
       })
   }
 
+  const getButtonClass = (platform: keyof typeof DL_PATHS) => {
+    const isHighlighted = detectedOS === platform
+    return `px-4 py-2 ${
+      isHighlighted
+        ? 'bg-emerald-500 hover:bg-emerald-600'
+        : 'bg-slate-600 hover:bg-slate-700'
+    } text-white font-semibold rounded-lg transition-colors`
+  }
+
   return (
     <>
       <div className="flex flex-wrap gap-2">
         <button
           id="download-win"
-          className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors"
+          className={getButtonClass('win')}
           type="button"
           aria-label="Download Windows zip"
           onClick={() => handleClick('win')}
@@ -76,7 +111,7 @@ export function DownloadButtons({ gameSlug }: DownloadButtonsProps) {
         </button>
         <button
           id="download-linux"
-          className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-lg transition-colors"
+          className={getButtonClass('linux')}
           type="button"
           aria-label="Download Linux zip"
           onClick={() => handleClick('linux')}
@@ -85,7 +120,7 @@ export function DownloadButtons({ gameSlug }: DownloadButtonsProps) {
         </button>
         <button
           id="download-mac"
-          className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-lg transition-colors"
+          className={getButtonClass('mac')}
           type="button"
           aria-label="Download Mac zip"
           onClick={() => handleClick('mac')}
