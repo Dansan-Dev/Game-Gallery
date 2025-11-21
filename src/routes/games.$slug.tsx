@@ -12,7 +12,7 @@ export const Route = createFileRoute('/games/$slug')({
     return { game }
   },
   errorComponent: () => (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-6">
+    <div className="h-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-white mb-4">Game Not Found</h1>
         <p className="text-gray-400 mb-6">
@@ -37,7 +37,7 @@ function GameDetail() {
     game.status === 'in-progress' ? 'in progress' : 'released'
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+    <div className="h-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 overflow-y-auto">
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
           {game.name}

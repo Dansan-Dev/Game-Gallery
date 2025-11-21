@@ -18,9 +18,9 @@ function Index() {
   const [searchQuery, setSearchQuery] = useState('')
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="relative py-12 px-6">
-        <div className="max-w-7xl mx-auto">
+    <div className="h-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col overflow-hidden">
+      <section className="flex-shrink-0 py-12 px-6">
+        <div className="max-w-7xl mx-[20px]">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Browse Games
           </h1>
@@ -32,7 +32,7 @@ function Index() {
         </div>
       </section>
 
-      <section className="px-6 pb-12 max-w-7xl mx-auto">
+      <section className="flex-1 overflow-y-auto px-6 pb-12 pt-[6px] max-w-7xl ml-[20px]">
         <h2 id="gallery-heading" className="sr-only">
           Game List
         </h2>

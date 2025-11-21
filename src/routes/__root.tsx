@@ -32,13 +32,15 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="h-full overflow-hidden flex flex-col">
         <Header />
-        {children}
+        <main className="flex-1 overflow-hidden">
+          {children}
+        </main>
         <Scripts />
       </body>
     </html>
@@ -47,7 +49,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 function NotFoundComponent() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-6">
+    <div className="h-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-6">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-white mb-4">Page Not Found</h1>
         <p className="text-gray-400 mb-6">
